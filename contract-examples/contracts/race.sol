@@ -3,7 +3,7 @@ interface IRaceCalculator {
 }
 
 contract raceExample {
-  address constant RACE_CALC = 0x0700000000000000000000000000000000000000"
+  address constant RACE_CALC = 0x0300000000000000000000000000000000000001"
 
   function testRace(uint256[] memory birds, uint256[] memory trackProperties) public view returns (uint256, uint256) {
     (uint256 score, uint256 index) = IRaceCalculator(RACE_CALC).getRaceWinner(birds, trackProperties);
