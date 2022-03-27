@@ -141,7 +141,6 @@ func _getHighestScore(birds []*big.Int, track []*big.Int) (*big.Int, *big.Int) {
 			highScore = score
 			winnerIndex = i
 		}
-
 	}
 
 	return highScore, big.NewInt(int64(winnerIndex))
