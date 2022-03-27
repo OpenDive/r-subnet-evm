@@ -119,7 +119,7 @@ type ChainConfig struct {
 	ContractDeployerAllowListConfig precompile.ContractDeployerAllowListConfig `json:"contractDeployerAllowListConfig,omitempty"` // Config for the allow list precompile
 	ContractNativeMinterConfig      precompile.ContractNativeMinterConfig      `json:"contractNativeMinterConfig,omitempty"`      // Config for the native minter precompile
 	RandomPartyConfig               precompile.RandomPartyConfig               `json:"randomPartyConfig,omitempty"`               // Config for the random party precompile
-	RaceCalculatorConfig                 precompile.RaceCalculatorConfig            `json:"RaceCalculatorConfig,omitempty"`                    // Config for the random party precompile
+	RaceCalculatorConfig            precompile.RaceCalculatorConfig            `json:"RaceCalculatorConfig,omitempty"`            // Config for the random party precompile
 }
 
 type FeeConfig struct {
@@ -226,6 +226,10 @@ func (c *ChainConfig) IsContractNativeMinter(blockTimestamp *big.Int) bool {
 // IsRandomPartyConfig returns whether [blockTimestamp] is either equal to the RandomParty fork block timestamp or greater.
 func (c *ChainConfig) IsRandomParty(blockTimestamp *big.Int) bool {
 	return utils.IsForked(c.RandomPartyConfig.Timestamp(), blockTimestamp)
+}
+
+func (c *ChainConfig) IsRaceCalculator(blockTimestamp *big.Int) bool {
+	return utils.IsForked(c.RaceCalculatorConfig.Timestamp(), blockTimestamp)
 }
 
 // GetFeeConfig returns the *FeeConfig if it exists, otherwise it returns [DefaultFeeConfig].
@@ -459,6 +463,7 @@ type Rules struct {
 	IsContractDeployerAllowListEnabled bool
 	IsContractNativeMinterEnabled      bool
 	IsRandomPartyEnabled               bool
+	IsRaceCalculatorEnabled            bool
 
 	// Precompiles maps addresses to stateful precompiled contracts that are enabled
 	// for this rule set.
@@ -495,6 +500,7 @@ func (c *ChainConfig) AvalancheRules(blockNum, blockTimestamp *big.Int) Rules {
 	rules.IsContractDeployerAllowListEnabled = c.IsContractDeployerAllowList(blockTimestamp)
 	rules.IsContractNativeMinterEnabled = c.IsContractNativeMinter(blockTimestamp)
 	rules.IsRandomPartyEnabled = c.IsRandomParty(blockTimestamp)
+	rules.IsRaceCalculatorEnabled = c.IsRaceCalculator(blockTimestamp)
 
 	// Initialize the stateful precompiles that should be enabled at [blockTimestamp].
 	rules.Precompiles = make(map[common.Address]precompile.StatefulPrecompiledContract)
