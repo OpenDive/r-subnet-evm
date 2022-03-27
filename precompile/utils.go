@@ -4,7 +4,6 @@
 package precompile
 
 import (
-	"fmt"
 	"regexp"
 
 	"github.com/ava-labs/subnet-evm/vmerrs"
@@ -17,9 +16,9 @@ var functionSignatureRegex = regexp.MustCompile(`[\w]+\(((([\w]+)?)|((([\w]+),)+
 // Ex. the function setBalance(addr address, balance uint256) should be passed in as the string:
 // "setBalance(address,uint256)"
 func CalculateFunctionSelector(functionSignature string) []byte {
-	if !functionSignatureRegex.MatchString(functionSignature) {
-		panic(fmt.Errorf("invalid function signature: %q", functionSignature))
-	}
+	// if !functionSignatureRegex.MatchString(functionSignature) {
+	// 	panic(fmt.Errorf("invalid function signature: %q", functionSignature))
+	// }
 	hash := crypto.Keccak256([]byte(functionSignature))
 	return hash[:4]
 }
