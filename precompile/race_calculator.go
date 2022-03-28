@@ -8,9 +8,9 @@ import (
 )
 
 // Enum constants for valid AllowListRole
-const (
-	nft_delim = byte('/')
-)
+// const (
+// 	nft_delim = byte('/')
+// )
 
 var (
 	_ StatefulPrecompileConfig = (*RaceCalculatorConfig)(nil)
@@ -126,11 +126,14 @@ func calculateTraitValues(b *big.Int) [14]*big.Int {
 }
 func getHighestScore(evm PrecompileAccessibleState, callerAddr, addr common.Address, input []byte, suppliedGas uint64, value *big.Int, readOnly bool) (ret []byte, remainingGas uint64, err error) {
 
+	// var _ret, _remaingGas, _err = start(evm, callerAddr, addr, input, suppliedGas, value, readOnly)
+
 	birds, track, nil := UnPackScoreInput(input)
 	score, winnerIndex := _getHighestScore(birds, track)
 	output, nil := packOutputAsBytes(score, winnerIndex)
 	return output, remainingGas, nil
 }
+
 func _getHighestScore(birds []*big.Int, track []*big.Int) (*big.Int, *big.Int) {
 	highScore := big.NewInt(0)
 	winnerIndex := 0
